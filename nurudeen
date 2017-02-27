@@ -1,0 +1,88 @@
+# R HDF5 Pakage 
+1. source ("http://bioconductor.org/biocLite.R")
+2. biocLite("rhdf5")
+3. 
+4.library("rhdf5")
+5 created = h5createFile("example.h5")
+6 created 
+7 # Create Groups 
+8. created = h5createGroup("example.h5","foo")
+9. created = h5createGroup("example.h5","baa")
+10. created = h5createGroup("example.h5","foo/foobaa")
+11. h5ls("example.h5")
+12
+13. # Wrirte to Groups
+14. A = matrix (1:10,nr=5, nc=2)
+15. h5write(A, "example.h5", "foo/A")
+16. B=array(seq(0.1,2.0,by=0.1), dim=c(5,2,2))
+17. attr(B, "scale" <- "liter"
+18. h5write(B, "example.h5", "foo/foobaa/B")
+19. h5ls("example.h5")
+20.
+21. # Write a Data Set 
+22. df= data.frame (1L:5L,seq(0,1,length.out=5),
+23. c("ab", "cde", "fghi", "a", "s"), stringAsFactors=FALSE)
+24. h5write(df, "example.h5", "df")
+25. h5ls("example.h5")
+26.
+27. # Reading Data
+28. readA = h5read("example.h5","foo/A")
+29. readB = h5read("example.h5","foo/foobaa/B")
+30. readdf = h5read("example.h5","df")
+31. readA
+32.
+33. # Writing and reading chunks.
+34. h5write(c(12,13,14), "example.h5", "foo/A", index=list(1:3,1))
+35. h5read("example.h5", "foo/A")
+36. 
+37. # Web Scrapping 
+38. Getting Data off webpages- readLines()
+39. con = url("http://scholar.google.com/citations?user=HI-I60AAAAJ&hl=en"
+40. htmlCode = readLines(con)
+41. close(con)
+42. htmlCode 
+43.
+44. # Parsing with XML
+45. library (XML)
+46. url <- "http://scholar.google.com/citations?user=HI-I6C0AAAAJ&hl=en"
+47. html <- htmlTreeParse(url, "//title", xmlValue)
+48.
+49. # Get from the httr package 
+50. library (httr); html2 = GET(url)
+51. content2 = content(html2, as="text")
+52. parsedHtml = htmlParse(content2,asText=TRUE)
+53. xpathSApply(parsedHtml, "//title", xmlValue)
+54.
+55. # Accessing websites with passwords 
+56. pg1 = GET("http://httpbin.org/basic-auth/user/passwd")
+57. pg1
+58.
+59. pg2 = GET("http://httpbin.org/basic-auth/user/passwd",
+60.     authenticate ("user", "passwd")
+61. pg2 
+62 name(pg2)
+63.
+64. # Using Handles 
+65. google= handle (http://google.com")
+66. pg1 = GET(handle=google,path="/")
+67. pg2 = GET(handle=google, path="search")
+68.
+69. # Getting Data from Application Programming Interface.
+70. # Create an application on Twitter 
+71. # Accessing Twitter From R.
+72. myapp = oauth_app("twitter",
+73.                   key="yourConsumerKeyHere", secret="yourConsumerSecretHere")
+74. sig = sign_oauth1.0(myapp,
+75.                   token="yourTokenHere",
+76.                    token_secret="yourTokenSecretHere")
+77.    homeTL = GET("https:twitter.com/1.1/statuses/home_timeline.json",sig)
+78.
+79. # Converting the json object
+80. json1 = content(homeTL)
+81. json2 = jsonlite::fromJSON(toJSON(json1))
+82. json2[1,1:4]
+83.
+
+
+
+
